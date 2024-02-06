@@ -5,14 +5,15 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
+using stoneXXI;
 
 #nullable disable
 
 namespace stoneXXI.Migrations
 {
     [DbContext(typeof(Repository))]
-    [Migration("20240205132309_InitMagration")]
-    partial class InitMagration
+    [Migration("20240206065812_initialMigration")]
+    partial class initialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,7 +25,7 @@ namespace stoneXXI.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("stomeXXI.Models+Candidate", b =>
+            modelBuilder.Entity("stoneXXI.Models+Candidate", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -60,7 +61,7 @@ namespace stoneXXI.Migrations
                     b.ToTable("Candidates");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+Department", b =>
+            modelBuilder.Entity("stoneXXI.Models+Department", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -77,7 +78,7 @@ namespace stoneXXI.Migrations
                     b.ToTable("Departments");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+HrSpecialist", b =>
+            modelBuilder.Entity("stoneXXI.Models+HrSpecialist", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -94,7 +95,7 @@ namespace stoneXXI.Migrations
                     b.ToTable("Hrs");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+Vacancy", b =>
+            modelBuilder.Entity("stoneXXI.Models+Vacancy", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -124,7 +125,6 @@ namespace stoneXXI.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("TestTask")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.HasKey("Id");
@@ -136,13 +136,13 @@ namespace stoneXXI.Migrations
                     b.ToTable("Vacancies");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+Candidate", b =>
+            modelBuilder.Entity("stoneXXI.Models+Candidate", b =>
                 {
-                    b.HasOne("stomeXXI.Models+HrSpecialist", "Hr")
+                    b.HasOne("stoneXXI.Models+HrSpecialist", "Hr")
                         .WithMany()
                         .HasForeignKey("HrId");
 
-                    b.HasOne("stomeXXI.Models+Vacancy", "Vacancy")
+                    b.HasOne("stoneXXI.Models+Vacancy", "Vacancy")
                         .WithMany()
                         .HasForeignKey("VacancyId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -153,27 +153,27 @@ namespace stoneXXI.Migrations
                     b.Navigation("Vacancy");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+Vacancy", b =>
+            modelBuilder.Entity("stoneXXI.Models+Vacancy", b =>
                 {
-                    b.HasOne("stomeXXI.Models+Department", "Department")
+                    b.HasOne("stoneXXI.Models+Department", "Department")
                         .WithMany("Vacancies")
                         .HasForeignKey("DepartmentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("stomeXXI.Models+HrSpecialist", null)
+                    b.HasOne("stoneXXI.Models+HrSpecialist", null)
                         .WithMany("AssignedVacancies")
                         .HasForeignKey("HrSpecialistId");
 
                     b.Navigation("Department");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+Department", b =>
+            modelBuilder.Entity("stoneXXI.Models+Department", b =>
                 {
                     b.Navigation("Vacancies");
                 });
 
-            modelBuilder.Entity("stomeXXI.Models+HrSpecialist", b =>
+            modelBuilder.Entity("stoneXXI.Models+HrSpecialist", b =>
                 {
                     b.Navigation("AssignedVacancies");
                 });

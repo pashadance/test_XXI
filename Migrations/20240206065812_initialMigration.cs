@@ -6,73 +6,69 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace stoneXXI.Migrations
 {
     /// <inheritdoc />
-    public partial class InitMagration : Migration
+    public partial class initialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             var dep = "Departments";
             if (!DbExt.TableExists(dep))
-            {
                 migrationBuilder.CreateTable(
                     name: dep,
                     columns: table => new
                     {
                         Id = table.Column<int>(type: "integer", nullable: false)
-                            .Annotation("Npgsql:ValueGenerationStrategy",
-                                NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                            .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                         Name = table.Column<string>(type: "text", nullable: false)
                     },
                     constraints: table => { table.PrimaryKey("PK_Departments", x => x.Id); });
 
-            }
-
             var hrs = "Hrs";
             if (!DbExt.TableExists(hrs))
                 migrationBuilder.CreateTable(
-                name: hrs,
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Name = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Hrs", x => x.Id);
-                });
+                    name: hrs,
+                    columns: table => new
+                    {
+                        Id = table.Column<int>(type: "integer", nullable: false)
+                            .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        Name = table.Column<string>(type: "text", nullable: false)
+                    },
+                    constraints: table =>
+                    {
+                        table.PrimaryKey("PK_Hrs", x => x.Id);
+                    });
 
             var vacs = "Vacancies";
             if (!DbExt.TableExists(vacs))
                 migrationBuilder.CreateTable(
-                name: vacs,
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    IsActive = table.Column<bool>(type: "boolean", nullable: false),
-                    DepartmentId = table.Column<int>(type: "integer", nullable: false),
-                    TestTask = table.Column<string>(type: "text", nullable: true),
-                    HrSpecialistId = table.Column<int>(type: "integer", nullable: true),
-                    Name = table.Column<string>(type: "text", nullable: false),
-                    Link = table.Column<string>(type: "text", nullable: false),
-                    Description = table.Column<string>(type: "text", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Vacancies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Vacancies_Departments_DepartmentId",
-                        column: x => x.DepartmentId,
-                        principalTable: "Departments",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Vacancies_Hrs_HrSpecialistId",
-                        column: x => x.HrSpecialistId,
-                        principalTable: "Hrs",
-                        principalColumn: "Id");
-                });
+                    name: vacs,
+                    columns: table => new
+                    {
+                        Id = table.Column<int>(type: "integer", nullable: false)
+                            .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                        IsActive = table.Column<bool>(type: "boolean", nullable: false),
+                        DepartmentId = table.Column<int>(type: "integer", nullable: false),
+                        TestTask = table.Column<string>(type: "text", nullable: true),
+                        HrSpecialistId = table.Column<int>(type: "integer", nullable: true),
+                        Name = table.Column<string>(type: "text", nullable: false),
+                        Link = table.Column<string>(type: "text", nullable: false),
+                        Description = table.Column<string>(type: "text", nullable: false)
+                    },
+                    constraints: table =>
+                    {
+                        table.PrimaryKey("PK_Vacancies", x => x.Id);
+                        table.ForeignKey(
+                            name: "FK_Vacancies_Departments_DepartmentId",
+                            column: x => x.DepartmentId,
+                            principalTable: "Departments",
+                            principalColumn: "Id",
+                            onDelete: ReferentialAction.Cascade);
+                        table.ForeignKey(
+                            name: "FK_Vacancies_Hrs_HrSpecialistId",
+                            column: x => x.HrSpecialistId,
+                            principalTable: "Hrs",
+                            principalColumn: "Id");
+                    });
 
             var cands = "Candidates";
             if (!DbExt.TableExists(cands))
